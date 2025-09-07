@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,14 +15,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// start
 Route::get('/', function () {
     return view('welcome');
 });
 
+
+// Authentication
 Route::get('/signup',[UserController::class,'sign'])->name('signpage');
 Route::get('/login',[UserController::class,'log'])->name('loginpage');
 
 Route::post('/login',[UserController::class,'login'])->name('login');
 Route::post('/signup',[UserController::class,'signup'])->name('signup');
 
-//Route::get('/', [ItemController::class,'index'])->name('home');
+Route::middleware(['role:Admin'])->group(function () {
+    Route::get('/admin/dashboard',[UserController::class,'admindashboard'])->name('admin');
+    Route::get('/logout',[UserController::class,'logout'])->name('logout');
+});
+
+Route::middleware(['role:User'])->group(function () {
+    Route::get('/user/dashboard',[UserController::class,'userdashboard'])->name('user');
+});
+
+Route::post('/logout',[UserController::class,'logout'])->name('logout');

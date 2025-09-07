@@ -18,9 +18,7 @@ class UserController extends Controller
         return view('auth.login');
     }
 
-
-    public function login(Request $request)
-    {
+    public function login(Request $request){
         $request->validate([
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8',
@@ -30,6 +28,13 @@ class UserController extends Controller
             $request->session()->regenerate();
 
             $user = Auth::user();
+
+            /*
+            session([
+                'user_id' => $user->id,
+                'user_role' => $user->role
+            ]);
+            */
 
             if ($user->role === 'Admin') {
                 return redirect('/admin/dashboard')->with('success', 'Welcome Admin!');
@@ -41,8 +46,8 @@ class UserController extends Controller
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
-    }
 
+    }
 
     public function signup(Request $request){
         $request->validate([
@@ -63,6 +68,22 @@ class UserController extends Controller
         ]);
 
         return redirect()->route('loginpage')->with('success','User created successfully');
+    }
+
+    public function logout(Request $request){
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
+    }
+
+    public function admindashboard(){
+        return view('admin.dashboard');
+    }
+
+    public function userdashboard(){
+        return view('user.dashboard');
     }
 }
 
