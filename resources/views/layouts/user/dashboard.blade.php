@@ -1,11 +1,11 @@
-@extends('app.app')
+@extends('layouts.app')
 
-@section('title','Admin Dashboard')
+@section('title','User Dashboard')
 
 @section('content')
     
     <div class="max-w-4xl mx-auto py-12 px-6">
-        <h1 class="text-4xl font-bold mb-6">Welcome Admin {{ auth()->user()->firstname }}!</h1>
+        <h1 class="text-4xl font-bold mb-6">Welcome User {{ auth()->user()->firstname }}!</h1>
         <form action="{{ route('logout') }}" method="POST" class="inline">
             @csrf
             <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded m-4">

@@ -30,7 +30,6 @@ Route::post('/signup',[UserController::class,'signup'])->name('signup');
 
 Route::middleware(['role:Admin'])->group(function () {
     Route::get('/admin/dashboard',[UserController::class,'admindashboard'])->name('admin');
-    Route::get('/logout',[UserController::class,'logout'])->name('logout');
 });
 
 Route::middleware(['role:User'])->group(function () {

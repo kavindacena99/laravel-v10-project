@@ -11,11 +11,11 @@ use App\Models\User;
 class UserController extends Controller
 {
     public function sign(){
-        return view('auth.signup');
+        return view('layouts.auth.signup');
     }
 
     public function log(){
-        return view('auth.login');
+        return view('layouts.auth.login');
     }
 
     public function login(Request $request){
@@ -28,13 +28,6 @@ class UserController extends Controller
             $request->session()->regenerate();
 
             $user = Auth::user();
-
-            /*
-            session([
-                'user_id' => $user->id,
-                'user_role' => $user->role
-            ]);
-            */
 
             if ($user->role === 'Admin') {
                 return redirect('/admin/dashboard')->with('success', 'Welcome Admin!');
@@ -79,11 +72,11 @@ class UserController extends Controller
     }
 
     public function admindashboard(){
-        return view('admin.dashboard');
+        return view('layouts.admin.dashboard');
     }
 
     public function userdashboard(){
-        return view('user.dashboard');
+        return view('layouts.user.dashboard');
     }
 }
 
